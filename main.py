@@ -30,14 +30,26 @@ def click():
     count_label.config(text=f"count {count}")
 
 
+def restart():
+    global count
+    global timer_count
+    count = 0
+    timer_count = 60
+    count_button.config(state=ACTIVE)
+    count_label.config(text="count: 0")
+    timer_label.config(text="timer: 60")
+
+
 window = Tk()
-count_label = Label(text="count: 0", font=("arial", 30, "bold"), fg="darkgreen", bg="green", relief=SUNKEN, bd=10)
-timer_label = Label(text="timer: 60", font=("arial", 30, "bold"), fg="darkgreen", bg="green", relief=SUNKEN, bd=10)
+count_label = Label(text="Count: 0", font=("arial", 30, "bold"), fg="darkgreen", bg="green", relief=SUNKEN, bd=10)
+timer_label = Label(text="Timer: 60", font=("arial", 30, "bold"), fg="darkgreen", bg="green", relief=SUNKEN, bd=10)
 count_button = Button(text="Click Me!", command=click, font=("arial", 50, "bold"), relief=RAISED, bd=20, fg="darkgreen", bg="green", activeforeground="darkgreen", activebackground="green")
+restart_button = Button(text="Restart", command=restart, font=("arial", 20, "bold"), relief=RAISED, bd=10, fg="darkgreen", bg="green", activeforeground="darkgreen", activebackground="green")
 window.geometry("500x500")
 window.title("click")
 window.config(background="lime")
 timer_label.place(x=250 - timer_label.winfo_reqwidth() // 2, y=20)
 count_button.place(x=250 - count_button.winfo_reqwidth() // 2, y=250 - count_button.winfo_reqheight() // 2)
 count_label.place(x=250 - count_label.winfo_reqwidth() // 2, y=480 - count_label.winfo_reqheight())
+restart_button.place(x=10, y=410)
 window.mainloop()
