@@ -38,8 +38,8 @@ def restart():
     count_button.config(state=ACTIVE)
     count_label.config(text="count: 0")
     timer_label.config(text="timer: 60")
-    time.sleep(1)
-    timer_count -= 1
+    #time.sleep(1)
+    #timer_count -= 1
 
 
 window = Tk()
