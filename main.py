@@ -1,27 +1,34 @@
+#To activate the counter, press Restart
+
 from tkinter import *
 import threading
 import time
 
 count = 0
 timer_count = 60
+timer_running = False
 
 
 def timer():
-    global timer_count
-    while True:
+    global timer_count, timer_running
+    while timer_running:
         time.sleep(1)
         timer_count -= 1
         timer_label.config(text=f"timer {timer_count}")
         if timer_count == 0:
             count_button.config(state=DISABLED)
             timer_label.config(fg="darkgreen", bg="green")
-            break
-        if timer_count <= 5:
+            timer_running = False
+        elif timer_count <= 5:
             timer_label.config(fg="darkred", bg="red")
 
 
-active_timer = threading.Thread(target=timer, daemon=True)
-active_timer.start()
+def start_timer():
+    global timer_count, timer_running
+    timer_count = 60
+    timer_running = True
+    active_timer = threading.Thread(target=timer, daemon=True)
+    active_timer.start()
 
 
 def click():
@@ -31,13 +38,13 @@ def click():
 
 
 def restart():
-    global count
-    global timer_count
+    global count, timer_running
     count = 0
-    timer_count = 60
+    count_label.config(text="Count: 0")
+    timer_label.config(text="Timer: 60", fg="darkgreen", bg="green")
     count_button.config(state=ACTIVE)
-    count_label.config(text="count: 0")
-    timer_label.config(text="timer: 60")
+    timer_running = False
+    start_timer()
 
 
 window = Tk()
@@ -53,3 +60,4 @@ count_button.place(x=250 - count_button.winfo_reqwidth() // 2, y=250 - count_but
 count_label.place(x=250 - count_label.winfo_reqwidth() // 2, y=480 - count_label.winfo_reqheight())
 restart_button.place(x=10, y=410)
 window.mainloop()
+
