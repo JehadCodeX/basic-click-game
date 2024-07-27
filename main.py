@@ -1,34 +1,27 @@
-#To activate the counter, press Restart
-
 from tkinter import *
 import threading
 import time
 
 count = 0
 timer_count = 60
-timer_running = False
 
 
 def timer():
-    global timer_count, timer_running
-    while timer_running:
+    global timer_count
+    while True:
         time.sleep(1)
         timer_count -= 1
         timer_label.config(text=f"timer {timer_count}")
         if timer_count == 0:
             count_button.config(state=DISABLED)
             timer_label.config(fg="darkgreen", bg="green")
-            timer_running = False
-        elif timer_count <= 5:
+            break
+        if timer_count <= 5:
             timer_label.config(fg="darkred", bg="red")
 
 
-def start_timer():
-    global timer_count, timer_running
-    timer_count = 60
-    timer_running = True
-    active_timer = threading.Thread(target=timer, daemon=True)
-    active_timer.start()
+active_timer = threading.Thread(target=timer, daemon=True)
+active_timer.start()
 
 
 def click():
@@ -38,13 +31,15 @@ def click():
 
 
 def restart():
-    global count, timer_running
+    global count
+    global timer_count
     count = 0
-    count_label.config(text="Count: 0")
-    timer_label.config(text="Timer: 60", fg="darkgreen", bg="green")
+    timer_count = 60
     count_button.config(state=ACTIVE)
-    timer_running = False
-    start_timer()
+    count_label.config(text="count: 0")
+    timer_label.config(text="timer: 60")
+    time.sleep(1)
+    timer_count -= 1
 
 
 window = Tk()
