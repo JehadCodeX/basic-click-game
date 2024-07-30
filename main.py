@@ -31,7 +31,8 @@ def update_timer_color():
 def end_timer():
     count_button.config(state=DISABLED)
     CPS_label.config(text=f"{count / 10:.1f} clicks per second")
-    CPS_label.pack()
+
+    CPS_label.place(x=250 - CPS_label.winfo_reqwidth() // 2, y=350)
 
 
 def click():
@@ -53,6 +54,7 @@ def restart():
 
     timer_thread = threading.Thread(target=timer, daemon=True)
     timer_thread.start()
+    CPS_label.pack_forget()
 
 
 timer_thread = None
@@ -77,4 +79,3 @@ restart_button.place(x=10, y=410)
 restart()
 
 window.mainloop()
-
